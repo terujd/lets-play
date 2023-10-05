@@ -1,11 +1,11 @@
 package mijan.letsplay.services;
 
-import mijan.letsplay.models.User;
-import mijan.letsplay.models.Product;
-import mijan.letsplay.repositories.ProductRepository;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import mijan.letsplay.models.Product;
+import mijan.letsplay.models.User;
+import mijan.letsplay.repositories.ProductRepository;
 import mijan.letsplay.repositories.UserRepository;
 
 

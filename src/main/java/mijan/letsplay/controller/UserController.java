@@ -7,6 +7,7 @@ import mijan.letsplay.exceptions.NotFoundException;
 import mijan.letsplay.models.User;
 import mijan.letsplay.services.UserService;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,6 @@ public class UserController {
     }
 
     // Update a user
-    @Autowired
     @PutMapping("/update")
     public User updateUser(@RequestBody User user) {
         return userService.updateUser(user);

@@ -1,8 +1,10 @@
 package mijan.letsplay.models;
 
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Builder; // Import Lombok's @Builder annotation
+
 
 @Document
 @Builder // Add the @Builder annotation
