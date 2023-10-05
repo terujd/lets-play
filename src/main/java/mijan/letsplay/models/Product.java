@@ -9,17 +9,17 @@ public class Product {
     private String id;
     private String name;
     private String description;
-    private String price;
+    private double price; // Use a numerical data type for prices
     private String userId; // the user who created this product
 
     public Product() {
     }
 
-    public Product(String name, String description, String price, String userId) {
-        this.name        = name;
+    public Product(String name, String description, double price, String userId) {
+        this.name = name;
         this.description = description;
-        this.price       = price;
-        this.userId      = userId;
+        this.price = price;
+        this.userId = userId;
     }
 
     public String getId() {
@@ -30,11 +30,11 @@ public class Product {
         return name;
     }
 
-    public String getDesctiption() {
+    public String getDescription() {
         return description;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -50,7 +50,7 @@ public class Product {
         this.description = description;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -59,5 +59,8 @@ public class Product {
     }
 
     public void setDesctiption(String string) {
+    }
+
+    public void setPrice(String string) {
     }
 }

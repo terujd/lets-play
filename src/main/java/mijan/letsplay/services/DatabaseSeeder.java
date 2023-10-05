@@ -43,7 +43,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     public void seedProducts() {
         Product product1 = new Product();
         product1.setName("Product 1");
-        product1.setDesctiption("This is product 1");
+        product1.setDescription("This is product 1");
         product1.setPrice("100");
         product1.setUserId("1");
         productRepository.save(product1);

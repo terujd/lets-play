@@ -1,6 +1,7 @@
 package mijan.letsplay.controller;
 
 import mijan.letsplay.models.Product;
+import mijan.letsplay.services.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +27,6 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    // Get all products created by a specific user
-    @GetMapping("/user/{userId}")
-    public List<Product> getAllProductsByUser(@PathVariable String userId) {
-        return productService.getAllProductsByUser(userId);
-    }
-
     // Get a specific product by id
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable String id) {
@@ -50,3 +45,10 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 }
+// Product modellen som är hur en product ska se ut
+// ProductService som innehåller funktioner för att lägga till en sak i databasen
+// productController som tar emot ett request via tex @getmapping och då kör tex getproducts som finns i productservice
+// @getmapping och då kör tex getproducts som finns i productservice
+// product model > productservice > productcontroller
+// productRepository glömde jag
+// det är till för att kommunicera med databasen
