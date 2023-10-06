@@ -1,0 +1,15 @@
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/services/DatabaseSeeder.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/services/UserRepository.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/models/User.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/controller/ProductController.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/repositories/ProductRepository.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/controller/UserController.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/services/UserService.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/config/ValidateProduct.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/services/ProductService.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/models/Product.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/exceptions/ProductCollectionException.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/exceptions/NotFoundException.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/exceptions/UserCollectionException.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/LetsPlayApplication.java
+/mnt/c/Users/axelw/OneDrive/Skrivbord/lets-play/src/main/java/mijan/letsplay/repositories/UserRepository.java
