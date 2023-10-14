@@ -1,23 +1,20 @@
 package mijan.letsplay.services;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
-import javax.validation.ConstraintViolationException;
-
-// import lombok.launch.PatchFixesHider.Val;
-import mijan.letsplay.repositories.ProductRepository;
-import mijan.letsplay.controller.ProductController;
-import mijan.letsplay.models.Product;
-import mijan.letsplay.exceptions.NotFoundException;
-import mijan.letsplay.exceptions.ProductCollectionException;
-import mijan.letsplay.config.ValidateProduct;
-import mijan.letsplay.models.User;
-import mijan.letsplay.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import jakarta.validation.ConstraintViolationException;
+import mijan.letsplay.config.ValidateProduct;
+import mijan.letsplay.exceptions.ProductCollectionException;
+import mijan.letsplay.models.Product;
+import mijan.letsplay.models.User;
+// import lombok.launch.PatchFixesHider.Val;
+import mijan.letsplay.repositories.ProductRepository;
+import mijan.letsplay.repositories.UserRepository;
+
 
 @Service
 public class ProductService {
@@ -30,10 +27,11 @@ public class ProductService {
         this.userRepository = userRepository;
     }
 
+
     public void createProduct(Product product) throws ConstraintViolationException, ProductCollectionException {
         ValidateProduct.validateProduct(product);
         if (product.getId() != null) {
-            // product.setId(Product.uuidGenerator());
+            product.setId(Product.uuidGenerator());
             // Fix this
         }
         Optional<User> userOptional = userRepository.findById(product.getUserId().trim());
@@ -44,7 +42,7 @@ public class ProductService {
             productRepository.save(product);
         }
     }
-
+    
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
@@ -81,6 +79,7 @@ public class ProductService {
         }
     }
 
+
     public void deleteProduct(String id) throws ProductCollectionException {
         Optional<Product> productOptional = productRepository.findById(id);
         if (!productOptional.isPresent()) {
@@ -90,3 +89,4 @@ public class ProductService {
         }
     }
 }
+

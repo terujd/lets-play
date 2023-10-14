@@ -32,8 +32,8 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     private void seedUsers() {
         User user1 = new User();
-        user1.setName("Mijanur Rahman");
-        user1.setEmail("Mijan@gmail.com");
+        user1.setName("Test tester");
+        user1.setEmail("Test@gmail.com");
         user1.setPassword("123456");
         user1.setRole("ROLE_ADMIN");
         userRepository.save(user1);
@@ -44,7 +44,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         Product product1 = new Product();
         product1.setName("Product 1");
         product1.setDescription("This is product 1");
-        product1.setPrice("100");
+        product1.setPrice(Double.parseDouble("100.0"));
         product1.setUserId("1");
         productRepository.save(product1);
         System.out.println("Product 1 added");
