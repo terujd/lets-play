@@ -1,27 +1,40 @@
 package mijan.letsplay.services;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import mijan.letsplay.models.User;
-import mijan.letsplay.repositories.UserRepository; // You should replace this with your UserRepository or data access logic
+import mijan.letsplay.repositories.UserRepository;
 
-@Service
+@Component
 public class UserInfoDetailsService implements UserDetailsService {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Replace the logic below with how you retrieve user information from your database or data source
-        User user = UserRepository.findByUsername(username);
-
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+        Optional<User> userOptional = userRepository.findByName(username);
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException("User not found: " + username);
         }
+        User user = userOptional.get();
 
-        // You should have a User class that implements UserDetails or a custom UserDetails implementation
-        // Return the UserDetails object based on your User entity
-        return (UserDetails) user;
+        // Initialize authorities
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
+
+        // Return Spring Security User object
+        return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(),
+                authorities);
     }
 }

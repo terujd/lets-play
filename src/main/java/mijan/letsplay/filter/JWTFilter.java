@@ -28,6 +28,12 @@ public class JWTFilter extends OncePerRequestFilter {
     @Autowired
     private UserInfoDetailsService userInfoDetailsService;
 
+    public static class InvalidTokenException extends RuntimeException {
+        public InvalidTokenException(String message) {
+            super(message);
+        }
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -52,12 +58,6 @@ public class JWTFilter extends OncePerRequestFilter {
 
     private boolean isBearerToken(String authHeader) {
         return authHeader != null && authHeader.startsWith("Bearer ");
-    }
-
-    public class InvalidTokenException extends RuntimeException {
-        public InvalidTokenException(String message) {
-            super(message);
-        }
     }
 
     private void handleBearerToken(String jwt, HttpServletRequest request) {

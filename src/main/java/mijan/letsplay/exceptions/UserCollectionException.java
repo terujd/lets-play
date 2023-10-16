@@ -29,4 +29,14 @@ public class UserCollectionException extends Exception {
     public static String NullException() {
         return " cannot be empty!";
     }
+
+    public static String InvalidEmailException() {
+        return " is not a valid email!";
+    }
+
+    public static String InvalidRoleException() {
+        return " is not a valid role!";
+    }
+
+    
 }
