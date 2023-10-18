@@ -1,4 +1,3 @@
-
 package mijan.letsplay.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
