@@ -4,6 +4,7 @@ package mijan.letsplay.config;
 import mijan.letsplay.exceptions.ProductCollectionException;
 import mijan.letsplay.models.Product;
 
+// This class is used to validate the product
 public class ValidateProduct {
     public static void validateProduct(Product product) throws ProductCollectionException {
         if (product.getName() != null) {// if product.getName() is not null, trim, else throw exception

@@ -6,14 +6,16 @@ import java.util.regex.Pattern;
 import mijan.letsplay.exceptions.UserCollectionException;
 import mijan.letsplay.models.User;
 
+// Validate the user's data
 public class ValidateUser {
     public static void validateUser(User user) throws UserCollectionException {
+        // Check and trim the user's name
         if (user.getName() != null) {
             user.setName(user.getName().trim());
         } else {
             throw new UserCollectionException("User name" + UserCollectionException.NullException());
         }
-        // if product.getDescription() is not null, trim, else throw exception
+        // Check and trim the user's email and validate its format
         if (user.getEmail() != null) {
             boolean isValid = isValidEmail(user.getEmail());
             System.out.println(user.getEmail() + " is valid email: " + isValid);
@@ -24,14 +26,17 @@ public class ValidateUser {
         } else {
             throw new UserCollectionException("User email" + UserCollectionException.NullException());
         }
+
+        // Check and trim the user's password
         if (user.getPassword() != null) {
             user.setPassword(user.getPassword().trim()); // Trim the ID field as well
         } else {
             throw new UserCollectionException("User password" + UserCollectionException.NullException());
         }
 
+        // Check if role enum is either user.getRole() is "ROLE_ADMIN" or "ROLE_USER"
         if (user.getRole() != null) {
-            // check if role enum is either user.getRole() is "ROLE_ADMIN" or "ROLE_USER"
+            
             if (!(user.getRole().equals("ROLE_ADMIN") || user.getRole().equals("ROLE_USER"))) {
                 throw new UserCollectionException("User role" + UserCollectionException.InvalidRoleException());
             }
@@ -42,9 +47,11 @@ public class ValidateUser {
 
     }
 
+    // This method is used to validate the email address
     private static final String EMAIL_REGEX = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
             + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
+    // Validate an email against the defined regex pattern
     public static boolean isValidEmail(String email) {
         // Compile the regex pattern
         Pattern pattern = Pattern.compile(EMAIL_REGEX);

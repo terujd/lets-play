@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ public class ProductController {
 
     // Create a new product
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
     public ResponseEntity<?> createProduct(@RequestBody Product product) {
         try {
             productService.createProduct(product);
@@ -57,6 +59,7 @@ public class ProductController {
 
     // Update a product
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateProduct(@PathVariable("id") String id, @RequestBody Product product) {
         try {
             productService.updateProduct(id, product);
@@ -70,6 +73,7 @@ public class ProductController {
 
     // Delete a product
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deleteProduct(@PathVariable("id") String id) {
         try {
             productService.deleteProduct(id);
@@ -79,12 +83,3 @@ public class ProductController {
         }
     }
 }
-// Product modellen som är hur en product ska se ut
-// ProductService som innehåller funktioner för att lägga till en sak i
-// databasen
-// productController som tar emot ett request via tex @getmapping och då kör tex
-// getproducts som finns i productservice
-// @getmapping och då kör tex getproducts som finns i productservice
-// product model > productservice > productcontroller
-// productRepository glömde jag
-// det är till för att kommunicera med databasen

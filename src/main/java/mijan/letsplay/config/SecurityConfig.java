@@ -21,48 +21,79 @@ import jakarta.servlet.http.HttpServletResponse;
 import mijan.letsplay.filter.JWTFilter;
 import mijan.letsplay.services.UserInfoDetailsService;
 
+// The @Configuration annotation indicates that this class contains Spring configuration
+// The @EnableWebSecurity annotation enables Spring Security
+// The @EnableMethodSecurity annotation enables Spring Security method-level security
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+// The SecurityConfig class is annotated with @Configuration, @EnableWebSecurity, and @EnableMethodSecurity.
 public class SecurityConfig {
 
-        // First we need to inject out JWTFilter into the SecurityFilterChain
+
+        // The JWTFilter bean is used to validate the JWT in the Authorization header
+        // and set the user in the SecurityContext if the token is valid
         @Autowired
         private JWTFilter jwtFilter;
 
-        // Then we need to configure the UserDetailsService
+        // The UserDetailsService bean is used to retrieve user details from the database
+        // and return a UserDetails object that Spring Security can use for authentication and validation
         @Bean
         public UserDetailsService userDetailService() {
                 return new UserInfoDetailsService();
         }
 
+        // the SecurityFilterChain bean is used to configure the security filters
+        // that are applied to secure your application
+        // The SecurityFilterChain bean is created by the Spring Security auto-configuration
+        // and is used to configure the security filters that are applied to secure your application.
         @Bean
         SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                http.csrf(csrf -> csrf.disable())
-                                .exceptionHandling(
-                                                exceptionHandling -> exceptionHandling
-                                                                .authenticationEntryPoint((request, response,
-                                                                                authException) -> response
-                                                                                                .sendError(HttpServletResponse.SC_UNAUTHORIZED)))
-                                .authorizeHttpRequests(
-                                                authorize -> authorize.requestMatchers("/api/products").permitAll()
-                                                                .requestMatchers("/api/products/{id}").permitAll()
-                                                                .requestMatchers("/api/auth").permitAll()
-                                                                .anyRequest().authenticated())
-                                .authenticationProvider(authenticationProvider())
-                                .sessionManagement(
-                                                sessionManagement -> sessionManagement.sessionCreationPolicy(
-                                                                SessionCreationPolicy.STATELESS))
-                                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        // Configure the SecurityFilterChain, which defines security settings for your application
+        // Disable Cross-Site Request Forgery (CSRF) protection
+        http.csrf(csrf -> csrf.disable())
 
+                // Handle exceptions related to authentication
+                .exceptionHandling(
+                        exceptionHandling -> exceptionHandling
+                .authenticationEntryPoint((request, response, authException) ->
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED)))
+
+                // Authorize HTTP requests based on their URL paths
+                .authorizeHttpRequests(
+                        authorize -> authorize
+                // Allow unauthenticated access to "/api/product/all" and "/api/product/{id}"
+                .requestMatchers("/api/product/all").permitAll()
+                .requestMatchers("/api/product/{id}").permitAll()
+                // Allow unauthenticated access to "/api/auth"
+                .requestMatchers("/api/auth").permitAll()
+                // Require authentication for any other requests
+                .anyRequest().authenticated())
+
+                // Set the AuthenticationProvider for user authentication
+                .authenticationProvider(authenticationProvider())
+
+                // Configure session management and set it to be stateless
+                .sessionManagement(
+                        sessionManagement -> sessionManagement.sessionCreationPolicy(
+                        SessionCreationPolicy.STATELESS))
+
+                // Add the JWTFilter before the UsernamePasswordAuthenticationFilter in the filter chain
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+                // Build and return the configured HttpSecurity object
                 return http.build();
+
         }
 
+        // The password encoder bean is used to encrypt the password before saving it to the database
         @Bean
         public PasswordEncoder passwordEncoder() {
                 return new BCryptPasswordEncoder();
         }
 
+        // The authentication provider bean is used to authenticate users with the database
+        // and set the PasswordEncoder to be used
         @Bean
         public AuthenticationProvider authenticationProvider() {
                 DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -71,9 +102,18 @@ public class SecurityConfig {
                 return authProvider;
         }
 
+
+        // The AuthenticationManager bean is used to authenticate users with the database
         @Bean
         public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
                 return config.getAuthenticationManager();
         }
 
 }
+
+// Disables Cross-Site Request Forgery (CSRF) protection.
+// Handles authentication-related exceptions and sends an "unauthorized" response if needed.
+// Authorizes specific URL paths, allowing unauthenticated access to some endpoints while requiring authentication for others.
+// Sets the AuthenticationProvider for user authentication.
+// Configures session management and specifies a stateless session creation policy.
+// Adds a custom JWTFilter before the built-in UsernamePasswordAuthenticationFilter in the filter chain.

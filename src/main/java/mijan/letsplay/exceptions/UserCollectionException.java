@@ -38,5 +38,7 @@ public class UserCollectionException extends Exception {
         return " is not a valid role!";
     }
 
-    
+    public static String PasswordCannotBeNullException() {
+        return "Password cannot be null!";
+    }
 }
