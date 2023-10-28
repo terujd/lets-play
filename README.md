@@ -65,6 +65,10 @@ To interact with the API, you can use tools like Postman or curl to send API req
 📄 API Documentation
 For detailed API documentation, please refer to the Endpoints 🔗.
 
-👥 Contributors
-Your Name - [**Micke Jansson**](https://01.gritlab.ax/git/Mijan/lets-play)||(https://github.com/terujD)
-Contributor - [**Axel Wallström**](https://github.com/Falusvampen)
+
+## 👥 Contributors
+
+
+
+- [**Micke Jansson**](https://01.gritlab.ax/git/Mijan/lets-play)||(https://github.com/terujD) - _Initial work and Core Maintainer_
+- [**Axel Wallström**](https://github.com/Falusvampen) - _Contributor_
