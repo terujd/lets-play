@@ -36,20 +36,20 @@ Before running this project, ensure you have the following prerequisites install
 
 1. Clone this repository:
 
-   ```bash
-   git clone https://01.gritlab.ax/git/Mijan/lets-play
-   ```
+    ```bash
+        git clone https://01.gritlab.ax/git/Mijan/lets-play
+    ```
 
-   Navigate to the project directory:
+2. Navigate to the project directory:
 
-```bash
-cd lets-play
-´´´
-Build and run the project using Maven:
+    ```bash
+        cd lets-play
+    ```
+3. Build and run the project using Maven:
 
-```bash
-mvn spring-boot:run
-```
+    ```bash
+    mvn spring-boot:run
+    ```
 Or run the project from inside your IDE.
 
 ## 🛠 Technologies Used
