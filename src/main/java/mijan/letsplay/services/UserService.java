@@ -22,18 +22,25 @@ import mijan.letsplay.repositories.UserRepository;
 
 @Service
 public class UserService {
+    // Inject UserRepository
     @Autowired
     private UserRepository userRepository;
 
+    // Inject ProductRepository
     @Autowired
     private ProductRepository productRepository;
 
+    // Inject PasswordEncoder
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // Create User
     public User createUser(User user) throws UserCollectionException {
+        // Validate the user
         validateUser(user);
+        // Check if the user already exists
         if (userRepository.existsById(user.getName())) {
+            // If the user already exists, throw an exception
             throw new UserCollectionException("User already exists.");
         }
 
@@ -41,21 +48,29 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    // Get all Users
     @Transactional
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
+        // Create a UserDTO from a User
         return users.stream().map(this::convertToUserDTO).collect(Collectors.toList());
     }
 
+    // Get User by ID
     public UserDTO getUserById(String id) throws NotFoundException {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException());
+        // Create a UserDTO from a User
         return convertToUserDTO(user);
     }
 
+    // Conversion Method
     public UserDTO convertToUserDTO(User user) {
+        // Create a UserDTO from a User
         return new UserDTO(user.getId(), user.getName(), user.getRole());
     }
 
+    // Update User
+    // Update the password as well
     public User updateUser(String id, User updatedUser)
             throws ConstraintViolationException, UserCollectionException, NoSuchAlgorithmException {
         ValidateUser.validateUser(updatedUser);
@@ -68,6 +83,8 @@ public class UserService {
         return userRepository.save(updatedUser);
     }
 
+    // Delete User
+    // Delete all products associated with the user
     public void deleteUser(String id) throws UserCollectionException {
         Optional<User> userOptional = userRepository.findById(id);
 
@@ -87,6 +104,8 @@ public class UserService {
         userRepository.delete(user);
     }
 
+    // validateUser method
+    // to check if the user name, email, and password are not null or empty
     private void validateUser(User user) throws UserCollectionException {
         if (user.getName() == null || user.getName().isEmpty()) {
             throw new UserCollectionException("User name cannot be null or empty.");

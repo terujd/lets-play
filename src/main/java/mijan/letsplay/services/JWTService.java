@@ -30,11 +30,11 @@ public class JWTService {
      * @return the randomly generated token
      */
     private static String generateRandomToken() {
-        SecureRandom random = new SecureRandom();
-        byte[] bytes = new byte[32];
-        random.nextBytes(bytes);
-        System.out.println("Random token: " + Base64.getEncoder().encodeToString(bytes)); // for audit purpose
-        return Base64.getEncoder().encodeToString(bytes);
+        SecureRandom random = new SecureRandom();// this is a random number generator
+        byte[] bytes = new byte[32];// this is a byte array
+        random.nextBytes(bytes);// this is a method of SecureRandom class
+        System.out.println("Random token: " + Base64.getEncoder().encodeToString(bytes)); // this is a method of Base64 class
+        return Base64.getEncoder().encodeToString(bytes);// this is a method of Base64 class
     }
 
     /**
@@ -44,7 +44,7 @@ public class JWTService {
      * @return the extracted username as a string
      */
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return extractClaim(token, Claims::getSubject);// here we extract the username from the token
     }
 
     /**
@@ -54,7 +54,7 @@ public class JWTService {
      * @return the expiration date extracted from the token
      */
     public Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+        return extractClaim(token, Claims::getExpiration);// here we extract the expiration date from the token
     }
 
     /**
@@ -66,8 +66,8 @@ public class JWTService {
      * @return the extracted claim value
      */
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
+        final Claims claims = extractAllClaims(token);// here we extract all the claims from the token
+        return claimsResolver.apply(claims);// here we apply the claimsResolver function to the claims
     }
 
     /**
@@ -78,11 +78,11 @@ public class JWTService {
      */
     private Claims extractAllClaims(String token) {
         return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parserBuilder()// here we build the parser
+                .setSigningKey(getSignKey())// here we set the sign key
+                .build()// here we build the parser
+                .parseClaimsJws(token)// here we parse the claims
+                .getBody();// here we get the body of the claims
     }
 
     /**
@@ -92,7 +92,7 @@ public class JWTService {
      * @return true if the token is expired, false otherwise
      */
     private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        return extractExpiration(token).before(new Date());// here we check if the token is expired
     }
 
     /**
@@ -105,8 +105,8 @@ public class JWTService {
      * @return true if the token is valid, false otherwise
      */
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String username = extractUsername(token);// here we extract the username from the token
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));// here we check if the token is valid
     }
 
     /**
@@ -122,8 +122,8 @@ public class JWTService {
      * @return the generated token
      */
     public String generateToken(String userName) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userName);
+        Map<String, Object> claims = new HashMap<>();// here we create a map of claims
+        return createToken(claims, userName);// here we create the token
     }
 
     /**
@@ -134,11 +134,11 @@ public class JWTService {
      * @return the generated JWT token
      */
     private String createToken(Map<String, Object> claims, String userName) {
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(userName)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+        return Jwts.builder()// here we build the token
+                .setClaims(claims)// here we set the claims
+                .setSubject(userName)// here we set the subject
+                .setIssuedAt(new Date(System.currentTimeMillis()))// here we set the issued date
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))// here we set the expiration date
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact(); // add the signature key with my own SECRET
                                                                              // (so here we add 1'st and 3'ed jwt
                                                                              // components).
@@ -150,7 +150,7 @@ public class JWTService {
      * @return The generated sign key.
      */
     private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
-        return Keys.hmacShaKeyFor(keyBytes);
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET);// here we decode the secret key
+        return Keys.hmacShaKeyFor(keyBytes);// here we return the sign key
     }
 }

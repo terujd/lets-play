@@ -18,28 +18,49 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Document(collection = "products")
 
+// Product is a POJO class that represents a product in the database
+// It has the following fields:
+// id: a unique identifier for the product
+// name: the product's name
+// description: the product's description
+// price: the product's price
+// userId: the user who created the product
+// The Product class is annotated with the @Document annotation
+// The @Document annotation is used to indicate that the class is a document that will be stored in the database
+// The @Document annotation is provided by Spring Data MongoDB
+// The @Document annotation has a collection attribute that is used to specify the name of the collection where the documents will be stored
+// In this case, the collection name is products
 public class Product {
-    @Builder.Default
-    @Id
+
+    @Builder.Default // The @Builder annotation is used to create a builder class for the Product class
+    @Id // The @Id annotation is used to mark the id field as the primary key
     private String id = uuidGenerator();
 
+    // The @NotBlank annotation is used to validate the name field
     @NotBlank(message = "Product name cannot be empty")
     private String name;
 
+    // The @NotBlank annotation is used to validate the description field
     @NotBlank(message = "Product description cannot be empty")
     private String description;
 
+    // The @NotBlank annotation is used to validate the price field
+    // The @DecimalMin annotation is used to validate the price field
     @NotBlank(message = "Product price cannot be null")
     @DecimalMin(value = "0.0", message = "Product price cannot be less than 0")
-    private double price;
+    private double price; // Use a numerical data type for prices
 
+    // The @NotBlank annotation is used to validate the userId field
     @NotBlank(message = "Product userId cannot be empty")
     private String userId;
 
+
+    // The setters are used to set the values of the fields
     public void setUserId(String userId) {
         this.userId = userId != null ? userId.trim() : null;
     }
 
+    // The uuidGenerator() method is used to generate a unique id for the product
     public static String uuidGenerator() {
         return UUID.randomUUID().toString();
     }

@@ -23,28 +23,38 @@ import mijan.letsplay.models.User;
 import mijan.letsplay.models.UserDTO;
 import mijan.letsplay.services.UserService;
 
+
 @RestController
 @RequestMapping("/api/users")
+//UserController is a REST controller that handles HTTP requests
 public class UserController {
+    // Inject UserService
     @Autowired
     private UserService userService;
 
-    @PostMapping("/create")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // Create a new user
+    @PostMapping("/create")//create user
+    @PreAuthorize("hasRole('ROLE_ADMIN')")//only admin can create user
     public ResponseEntity<UserDTO> createUser(@Valid @RequestBody User user) {
         try {
-            User createdUser = userService.createUser(user);
-            UserDTO userDTO = userService.convertToUserDTO(createdUser);
-            return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
-        } catch (ConstraintViolationException e) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
-        } catch (UserCollectionException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            User createdUser = userService.createUser(user);//create user
+            UserDTO userDTO = userService.convertToUserDTO(createdUser);//convert user to userDTO
+            return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);//return userDTO
+        } catch (ConstraintViolationException e) {//if user validation fails
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);//return 422
+        } catch (UserCollectionException e) {//if user already exists
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);//return 409
+        } catch (Exception e) {//if any other error occurs
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);//return 400
         }
     }
 
+    // Get all users (accessible by all users)/**
+/**
+ * The function returns a list of UserDTO objects for all users, but it requires the user to have either the 'ROLE_ADMIN' or 'ROLE_USER' role.
+ * 
+ * @return The method is returning a List of UserDTO objects.
+ */
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
     public List<UserDTO> getAllUsers() {
@@ -52,6 +62,12 @@ public class UserController {
         return userDTOs;
     }
 
+/*
+ * The function `getUserById` retrieves a user by their ID and returns a `UserDTO` object if found, otherwise it throws a `NotFoundException`.
+ *
+ * @param id The "id" parameter is a path variable that represents the unique identifier of a user. It is used to retrieve the user with the specified id from the database.
+ * @return The method is returning a ResponseEntity object with a generic type of UserDTO.
+ */
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
     public ResponseEntity<UserDTO> getUserById(@PathVariable String id) throws NotFoundException {
@@ -63,6 +79,13 @@ public class UserController {
         }
     }
 
+/*
+ * This function updates a user with the given ID and returns a response entity with the result.
+ * 
+ * @param id The "id" parameter is a path variable that represents the unique identifier of the user to be updated. It is extracted from the URL path.
+ * @param user The "user" parameter is of type User and represents the updated user object that will be used to update the user with the specified ID.
+ * @return The method is returning a ResponseEntity object.
+ */
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateUserById(@PathVariable("id") String id, @RequestBody User user) {
@@ -76,6 +99,9 @@ public class UserController {
         }
     }
 
+// The code is a Java method that handles a DELETE request to delete a user by their ID.
+// It is annotated with @DeleteMapping("/{id}") to specify that it handles DELETE requests with a path variable for the user ID.
+// It is also annotated with @PreAuthorize("hasRole('ROLE_ADMIN')") to ensure that only users with the "ROLE_ADMIN" role can access this endpoint.
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deleteUserById(@PathVariable("id") String id) {

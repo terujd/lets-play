@@ -10,21 +10,21 @@ import mijan.letsplay.models.User;
 public class ValidateUser {
     public static void validateUser(User user) throws UserCollectionException {
         // Check and trim the user's name
-        if (user.getName() != null) {
-            user.setName(user.getName().trim());
+        if (user.getName() != null) {// if user.getName() is not null, trim, else throw exception
+            user.setName(user.getName().trim());// Trim the name field
         } else {
-            throw new UserCollectionException("User name" + UserCollectionException.NullException());
+            throw new UserCollectionException("User name" + UserCollectionException.NullException());// Throw an exception
         }
         // Check and trim the user's email and validate its format
         if (user.getEmail() != null) {
-            boolean isValid = isValidEmail(user.getEmail());
-            System.out.println(user.getEmail() + " is valid email: " + isValid);
-            if (!isValid) {
-                throw new UserCollectionException(UserCollectionException.InvalidEmailException());
+            boolean isValid = isValidEmail(user.getEmail());// Check if the email is valid
+            System.out.println(user.getEmail() + " is valid email: " + isValid);// Print the email and its validity
+            if (!isValid) {// If the email is not valid, throw an exception
+                throw new UserCollectionException(UserCollectionException.InvalidEmailException());// Throw an exception
             }
-            user.setEmail(user.getEmail().trim());
+            user.setEmail(user.getEmail().trim());// Trim the email field
         } else {
-            throw new UserCollectionException("User email" + UserCollectionException.NullException());
+            throw new UserCollectionException("User email" + UserCollectionException.NullException());// Throw an exception
         }
 
         // Check and trim the user's password

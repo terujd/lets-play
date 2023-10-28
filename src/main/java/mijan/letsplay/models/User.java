@@ -14,45 +14,55 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "users")
+// User is a model class that represents a user in the database
 public class User {
-    @Id
-    @Builder.Default
+    @Id// The @Id annotation is used to mark the id field as the primary key
+    @Builder.Default// The @Builder annotation is used to create a builder class
+    // here we are using the @Builder annotation to create a builder class with a default value for the id field
     private String id = uuidGenerator();
 
-    @NotBlank(message = "User name cannot be empty")
+    // The @NotBlank annotation is used to validate the name field
+    @NotBlank(message = "User name cannot be empty")//
     private String name;
 
+    // The @Email annotation is used to validate the email field
     @NotBlank(message = "User email cannot be empty")
     @Email(message = "Invalid email format")
     private String email;
 
+    // The @NotBlank annotation is used to validate the password field
     @NotBlank(message = "User password cannot be empty")
     private String password;
 
+    // The @NotBlank annotation is used to validate the role field
     @NotBlank(message = "User role cannot be empty")
     private String role;
 
-    public void setName(String name) {
+    // The setters are used to set the values of the fields
+    public void setName(String name) {// The setName() method is used to set the name field
         this.name = name != null ? name.trim() : null;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) {// The setEmail() method is used to set the email field
         this.email = email != null ? email.trim() : null;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password) {// The setPassword() method is used to set the password field
         this.password = password != null ? password.trim() : null;
     }
 
-    public void setRole(String role) {
+    public void setRole(String role) {// The setRole() method is used to set the role field
         this.role = role != null ? role.trim() : null;
     }
 
+    // The uuidGenerator() method is used to generate a unique id for the user
     public static String uuidGenerator() {
         return UUID.randomUUID().toString();
     }
