@@ -10,7 +10,7 @@ import mijan.letsplay.models.Product;
 
 @Repository
 public interface ProductRepository extends MongoRepository<Product, String> {
-     @Query("{'userId': ?0}")
+    @Query("{'userId': ?0}")
     List<Product> findByUserId(String userId);
 
     @Query("{'name': {$regex: ?0}}")

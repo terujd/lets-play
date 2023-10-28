@@ -1,7 +1,6 @@
 package mijan.letsplay.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -30,34 +29,34 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("/create")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody User user) {
         try {
-            userService.createUser(user);
-            return new ResponseEntity<User>(user, HttpStatus.CREATED);
+            User createdUser = userService.createUser(user);
+            UserDTO userDTO = userService.convertToUserDTO(createdUser);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
         } catch (ConstraintViolationException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
         } catch (UserCollectionException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
     public List<UserDTO> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return users.stream().map(this::convertToDTO).collect(Collectors.toList());
+        List<UserDTO> userDTOs = userService.getAllUsers(); // Modify this line
+        return userDTOs;
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
     public ResponseEntity<UserDTO> getUserById(@PathVariable String id) throws NotFoundException {
-        User user = userService.getUserById(id);
-        if (user != null) {
-            UserDTO userDTO = convertToDTO(user);
+        UserDTO userDTO = userService.getUserById(id);
+        if (userDTO != null) {
             return ResponseEntity.ok(userDTO);
         } else {
             throw new NotFoundException();
@@ -87,15 +86,9 @@ public class UserController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-
-    private UserDTO convertToDTO(User user) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
-        userDTO.setRole(user.getRole());
-        return userDTO;
-    }
 }
+
+
 
 // package mijan.letsplay.controller;
 

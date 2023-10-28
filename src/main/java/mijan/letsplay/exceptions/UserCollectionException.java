@@ -15,7 +15,7 @@ public class UserCollectionException extends Exception {
 
     // This method is used to generate a random UUID
     public static String NotFoundException(String id) {
-        return "User with " + id + " not found!";
+        return "User with id:" + id + " not found!";
     }
 
     public static String UserAlreadyExistException() {

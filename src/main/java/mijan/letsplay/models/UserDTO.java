@@ -13,7 +13,5 @@ import lombok.NoArgsConstructor;
 public class UserDTO {
     private String id; // Unique identifier for the user
     private String name; // The user's name
-    private String email; // The user's email
-    private String password; // The user's password
     private String role; // The user's role
 }
