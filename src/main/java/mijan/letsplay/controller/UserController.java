@@ -102,7 +102,7 @@ public class UserController {
 // The code is a Java method that handles a DELETE request to delete a user by their ID.
 // It is annotated with @DeleteMapping("/{id}") to specify that it handles DELETE requests with a path variable for the user ID.
 // It is also annotated with @PreAuthorize("hasRole('ROLE_ADMIN')") to ensure that only users with the "ROLE_ADMIN" role can access this endpoint.
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deleteUserById(@PathVariable("id") String id) {
         try {
@@ -113,7 +113,6 @@ public class UserController {
         }
     }
 }
-
 
 
 // package mijan.letsplay.controller;

@@ -66,6 +66,9 @@ To interact with the API, you can use tools like Postman or curl to send API req
 For detailed API documentation, please refer to the Endpoints 🔗.
 
 
+## ☁️ [Endpoints Documentation](https://www.postman.com/descent-module-geologist-64551207/workspace/lets-play/request/30064026-fa0c2c4e-5aec-422b-be78-3a9e69dcc6fa) 🔗
+
+
 ## 👥 Contributors
 
 
